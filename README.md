@@ -1,0 +1,5 @@
+# openwrt-k2p-actions
+利用github提供的actions编译k2p的openwrt官方固件
+
+每周或者配置文件更新时编译一次
+本固件只包含mwan3和upnp
