@@ -7,6 +7,8 @@ on:
       - master
     paths:
       - '.config.n1.docker'
+  watch:
+    types: [started]
 
     
 jobs:
@@ -18,7 +20,7 @@ jobs:
       uses: actions/checkout@v1
 
     - name: Install - system build dependencies
-      run: sudo apt-get install subversion build-essential libncurses5-dev zlib1g-dev gawk git ccache gettext libssl-dev xsltproc zip
+      run: sudo apt-get install subversion build-essential libncurses5-dev zlib1g-dev gawk git ccache gettext libssl-dev xsltproc zip pigz
 
     - name: Download - openwrt source download
       run: |
@@ -48,7 +50,7 @@ jobs:
     - name: Image - build docker image
       run: |
         cd n1
-        sudo ./build.sh
+        sudo bash build.sh
     - name: Upload - push to artifact file
       uses: actions/upload-artifact@v1
       with:
