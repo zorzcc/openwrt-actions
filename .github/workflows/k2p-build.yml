@@ -1,0 +1,64 @@
+name: OpenWrt k2p CI
+on:
+  schedule:
+    - cron:  0 9 * * 5
+  push:
+    branches:
+      - master
+    paths:
+      - '.config.openwrt'
+
+    
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Checkout - clone repository
+      uses: actions/checkout@v1
+
+    - name: Install - system build dependencies
+      run: sudo apt-get install subversion build-essential libncurses5-dev zlib1g-dev gawk git ccache gettext libssl-dev xsltproc zip
+
+    - name: Download - openwrt source download
+      run: |
+        git clone https://github.com/openwrt/openwrt.git
+        
+    - name: Update - openwrt source update and install 
+      run: |
+        cd openwrt
+        ./scripts/feeds update -a
+        ./scripts/feeds install -a
+
+    - name: Clone - openwrt plugin source
+      run: |
+        cd openwrt
+        git clone https://github.com/MeIsReallyBa/k2p-openwrt-mt7615_5.0.2.0 package/mtk
+
+    - name: Config - official openwrt k2p build config
+      run: |
+        cp .config.openwrt openwrt/.config
+        cd openwrt
+        make defconfig
+
+    - name: Download - openwrt build dependencies
+      run: |
+        cd openwrt
+        make download -j8
+
+    - name: Build - make openwrt source
+      run: |
+        cd openwrt
+        make -j$(nproc)
+
+    - name: Remove - delete packages files
+      run: |
+        cd openwrt/bin/targets/ramips/mt7621/
+        rm -rf packages/
+        ls -hl
+
+    - name: Upload - push to artifact file
+      uses: actions/upload-artifact@v1
+      with:
+        name: openwrt-k2p
+        path: openwrt/bin/targets/ramips/mt7621/
