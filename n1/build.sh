@@ -6,11 +6,11 @@ if [ ! -z "$1" ];then
 fi
 
 TMPDIR=openwrt_rootfs
-OUTDIR=/opt/imgs/docker
+OUTDIR=opt/imgs
 IMG_NAME=zorz/openwrt-aarch64
 
 [ -d "$TMPDIR" ] && rm -rf "$TMPDIR"
-
+mkdir -p "$OUTDIR"
 mkdir -p "$TMPDIR"  && \
 gzip -dc openwrt-armvirt-64-default-rootfs.tar.gz | ( cd "$TMPDIR" && tar xf - ) && \
 cp -f patches/rc.local "$TMPDIR/etc/" && \
