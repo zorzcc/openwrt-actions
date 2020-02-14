@@ -7,8 +7,9 @@ on:
       - master
     paths:
       - '.config.n1.docker'
-  watch:
-    types: [started]
+      - 'n1/**'
+  #watch:
+  #  types: [started]
 
     
 jobs:
@@ -33,8 +34,10 @@ jobs:
         ./scripts/feeds install -a
     - name: Config - n1 docker openwrt build config
       run: |
+        [ -e n1/diy.sh ] && mv n1/diy.sh openwrt/diy.sh
         cp .config.n1.docker openwrt/.config
         cd openwrt
+        [ -e diy.sh ] && chmod +x diy.sh && bash diy.sh
         make defconfig
     - name: Download - openwrt build dependencies
       run: |
