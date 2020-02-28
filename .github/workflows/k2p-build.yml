@@ -15,14 +15,14 @@ jobs:
     steps:
 
     - name: Checkout - clone repository
-      uses: actions/checkout@v1
+      uses: actions/checkout@v2
 
     - name: Install - system build dependencies
       run: sudo apt-get install subversion build-essential libncurses5-dev zlib1g-dev gawk git ccache gettext libssl-dev xsltproc zip
 
     - name: Download - openwrt source download
       run: |
-        git clone https://github.com/openwrt/openwrt.git
+        git clone -b openwrt-19.07 https://github.com/openwrt/openwrt.git
         
     - name: Update - openwrt source update and install 
       run: |
