@@ -11,7 +11,8 @@ on:
       - '.github/workflows/n1-build.yml'
   #watch:
   #  types: [started]
-
+env:
+  SSH_ACTIONS: true
     
 jobs:
   build:
@@ -61,6 +62,10 @@ jobs:
       run: |
         cp openwrt/bin/targets/armvirt/64/openwrt-armvirt-64-default-rootfs.tar.gz n1
         sudo cp -r n1 /mnt
+        
+    - name: SSH connection to Actions
+      uses: P3TERX/debugger-action@master
+      if: env.SSH_ACTIONS == 'true'
         
     - name: Image - build docker image
       run: |
