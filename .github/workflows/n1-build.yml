@@ -33,7 +33,7 @@ jobs:
 
     - name: Download - openwrt source download
       run: |
-        git clone -b mod https://github.com/Lienol/lean-lede
+        git clone -b mod https://github.com/Lienol/lean-lede openwrt
     
     - name: mount - link /mnt
       run: |
