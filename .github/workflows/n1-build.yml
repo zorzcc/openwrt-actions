@@ -20,7 +20,7 @@ jobs:
     steps:
 
     - name: Checkout - clone repository
-      uses: actions/checkout@v1
+      uses: actions/checkout@v2
 
     - name: Install - system build dependencies
       run: |
@@ -33,7 +33,7 @@ jobs:
 
     - name: Download - openwrt source download
       run: |
-        git clone -b dev-lean-lede https://github.com/Lienol/openwrt
+        git clone -b mod https://github.com/Lienol/lean-lede
     
     - name: mount - link /mnt
       run: |
