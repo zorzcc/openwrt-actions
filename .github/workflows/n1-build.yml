@@ -26,6 +26,7 @@ jobs:
       run: |
         sudo swapoff /swapfile
         sudo rm -rf /swapfile /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc
+        sudo -E apt-get -y purge azure-cli ghc* zulu* hhvm llvm* firefox google* dotnet* powershell openjdk* mysql* php*
         sudo -E apt-get -qq update
         sudo -E apt-get -yqq install subversion build-essential libncurses5-dev zlib1g-dev gawk git ccache gettext libssl-dev xsltproc zip pigz
         sudo -E apt-get -yqq autoremove --purge
@@ -43,6 +44,8 @@ jobs:
     - name: Update - openwrt source update and install 
       run: |
         cd openwrt
+        sed -i 's/^#\(.*helloworld\)/\1/' feeds.conf.default
+        sed -i 's#Lienol/openwrt-package#Lancenas/lienol-openwrt-package.git#' feeds.conf.default
         ./scripts/feeds update -a
         ./scripts/feeds install -a
         
