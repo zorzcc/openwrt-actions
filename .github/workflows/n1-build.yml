@@ -45,7 +45,6 @@ jobs:
       run: |
         cd openwrt
         sed -i 's/^#\(.*helloworld\)/\1/' feeds.conf.default
-        sed -i 's#Lienol/openwrt-package#Lancenas/lienol-openwrt-package.git#' feeds.conf.default
         ./scripts/feeds update -a
         ./scripts/feeds install -a
         
