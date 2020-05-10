@@ -34,7 +34,7 @@ jobs:
 
     - name: Download - openwrt source download
       run: |
-        git clone -b mod https://github.com/Lienol/lean-lede openwrt
+        git clone https://github.com/coolsnowwolf/lede openwrt
     
     - name: mount - link /mnt
       run: |
@@ -43,6 +43,7 @@ jobs:
         
     - name: Update - openwrt source update and install 
       run: |
+
         cd openwrt
         sed -i 's/^#\(.*helloworld\)/\1/' feeds.conf.default
         ./scripts/feeds update -a
@@ -50,8 +51,10 @@ jobs:
         
     - name: Config - n1 docker openwrt build config
       run: |
+        [ -e n1/diy.sh ] && mv n1/diy.sh openwrt/diy.sh
         cp .config.n1.docker openwrt/.config
         cd openwrt
+        [ -e diy.sh ] && chmod +x diy.sh && bash diy.sh
         make defconfig
         
     - name: Download - openwrt build dependencies
