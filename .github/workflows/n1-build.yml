@@ -46,7 +46,8 @@ jobs:
     - name: Update - openwrt source update and install 
       run: |
         cd openwrt
-        sed -i 's/^#\(.*helloworld\)/\1/' feeds.conf.default
+        git clone https://github.com/kenzok8/openwrt-packages.git package/openwrt-packages
+        git clone https://github.com/kenzok8/small.git package/small
         ./scripts/feeds update -a
         ./scripts/feeds install -a
         
